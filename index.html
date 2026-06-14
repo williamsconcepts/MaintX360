@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MaintPro360 | Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
+  <script src="data/localstorage.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body data-page="dashboard">
+  <div id="sidebarShade" class="sidebar-shade"></div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">M</span>
+        <span>
+          <span class="brand-title">MaintPro360</span>
+          <span class="brand-subtitle">Digital Maintenance Management Platform</span>
+        </span>
+      </a>
+
+      <nav class="nav-list">
+        <a class="nav-link" data-nav="dashboard" href="index.html"><span class="nav-icon">DB</span>Dashboard</a>
+        <a class="nav-link" data-nav="assets" href="assets.html"><span class="nav-icon">AS</span>Assets</a>
+        <a class="nav-link" data-nav="schedules" href="schedules.html"><span class="nav-icon">PM</span>Preventive Maintenance</a>
+        <a class="nav-link" data-nav="workorders" href="workorders.html"><span class="nav-icon">WO</span>Work Orders</a>
+        <a class="nav-link" data-nav="technicians" href="technicians.html"><span class="nav-icon">TE</span>Technicians</a>
+        <a class="nav-link" data-nav="history" href="history.html"><span class="nav-icon">HI</span>History & Reporting</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <strong>Oil & Gas CMMS</strong>
+        <span>Planning, execution, and reporting in one workspace.</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuButton" class="icon-btn menu-button" type="button" aria-label="Open navigation">M</button>
+        <div class="page-title">
+          <h1>Operations Dashboard</h1>
+          <p>Maintenance visibility across critical oil and gas assets.</p>
+        </div>
+        <div class="topbar-actions">
+          <a class="btn btn-secondary" href="schedules.html"><span class="btn-icon">+</span>Schedule PM</a>
+          <a class="btn btn-primary" href="workorders.html"><span class="btn-icon">+</span>Create Work Order</a>
+        </div>
+      </header>
+
+      <section class="content section-stack">
+        <div class="stat-grid" aria-label="Maintenance KPIs">
+          <article class="stat-card accent-cyan">
+            <span class="stat-label">Total Assets</span>
+            <strong id="totalAssets" class="stat-value">0</strong>
+            <span class="stat-meta">Registered maintainable equipment</span>
+          </article>
+          <article class="stat-card accent-amber">
+            <span class="stat-label">Active Work Orders</span>
+            <strong id="activeWorkOrders" class="stat-value">0</strong>
+            <span class="stat-meta">Open, in progress, or on hold</span>
+          </article>
+          <article class="stat-card accent-green">
+            <span class="stat-label">Completed Work Orders</span>
+            <strong id="completedWorkOrders" class="stat-value">0</strong>
+            <span class="stat-meta">Closed maintenance work</span>
+          </article>
+          <article class="stat-card accent-blue">
+            <span class="stat-label">Upcoming Maintenance</span>
+            <strong id="upcomingMaintenance" class="stat-value">0</strong>
+            <span class="stat-meta">Future preventive tasks</span>
+          </article>
+          <article class="stat-card accent-violet">
+            <span class="stat-label">Completion Rate</span>
+            <strong id="completionRate" class="stat-value">0%</strong>
+            <span class="stat-meta">Completed work order ratio</span>
+          </article>
+          <article class="stat-card accent-red">
+            <span class="stat-label">Maintenance Records</span>
+            <strong id="historyCount" class="stat-value">0</strong>
+            <span class="stat-meta">Historical service entries</span>
+          </article>
+        </div>
+
+        <div class="grid-3">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Asset Status Summary</h2>
+                <span>Availability profile</span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="chart-area short">
+                <canvas id="assetStatusChart" aria-label="Asset status chart"></canvas>
+              </div>
+              <p class="chart-fallback" hidden>Chart.js could not be loaded.</p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Work Order Status</h2>
+                <span>Execution workload</span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="chart-area short">
+                <canvas id="workOrderStatusChart" aria-label="Work order status chart"></canvas>
+              </div>
+              <p class="chart-fallback" hidden>Chart.js could not be loaded.</p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Monthly Maintenance Count</h2>
+                <span>Completed activities</span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="chart-area short">
+                <canvas id="monthlyMaintenanceChart" aria-label="Monthly maintenance chart"></canvas>
+              </div>
+              <p class="chart-fallback" hidden>Chart.js could not be loaded.</p>
+            </div>
+          </section>
+        </div>
+
+        <div class="grid-2">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Upcoming Maintenance</h2>
+                <span>Next preventive maintenance dates</span>
+              </div>
+              <a class="link-button" href="schedules.html">View all</a>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Asset</th>
+                    <th>Maintenance Type</th>
+                    <th>Frequency</th>
+                    <th>Next Due</th>
+                  </tr>
+                </thead>
+                <tbody id="upcomingMaintenanceTable"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Recent Work Orders</h2>
+                <span>Latest execution activity</span>
+              </div>
+              <a class="link-button" href="workorders.html">View all</a>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Number</th>
+                    <th>Asset</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Due Date</th>
+                  </tr>
+                </thead>
+                <tbody id="recentWorkOrdersTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h2>Recent Activities</h2>
+              <span>Audit trail from LocalStorage</span>
+            </div>
+          </div>
+          <div class="panel-body">
+            <ul id="recentActivities" class="activity-list"></ul>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

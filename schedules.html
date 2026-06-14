@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MaintPro360 | Preventive Maintenance</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="data/localstorage.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script src="js/schedules.js" defer></script>
+</head>
+<body data-page="schedules">
+  <div id="sidebarShade" class="sidebar-shade"></div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">M</span>
+        <span>
+          <span class="brand-title">MaintPro360</span>
+          <span class="brand-subtitle">Digital Maintenance Management Platform</span>
+        </span>
+      </a>
+      <nav class="nav-list">
+        <a class="nav-link" data-nav="dashboard" href="index.html"><span class="nav-icon">DB</span>Dashboard</a>
+        <a class="nav-link" data-nav="assets" href="assets.html"><span class="nav-icon">AS</span>Assets</a>
+        <a class="nav-link" data-nav="schedules" href="schedules.html"><span class="nav-icon">PM</span>Preventive Maintenance</a>
+        <a class="nav-link" data-nav="workorders" href="workorders.html"><span class="nav-icon">WO</span>Work Orders</a>
+        <a class="nav-link" data-nav="technicians" href="technicians.html"><span class="nav-icon">TE</span>Technicians</a>
+        <a class="nav-link" data-nav="history" href="history.html"><span class="nav-icon">HI</span>History & Reporting</a>
+      </nav>
+      <div class="sidebar-footer">
+        <strong>Preventive Maintenance</strong>
+        <span>Auto-calculated next due dates and monthly calendar view.</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuButton" class="icon-btn menu-button" type="button" aria-label="Open navigation">M</button>
+        <div class="page-title">
+          <h1>Preventive Maintenance</h1>
+          <p>Plan recurring work before asset reliability is at risk.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-primary" type="button" data-action="add-schedule"><span class="btn-icon">+</span>Create Schedule</button>
+        </div>
+      </header>
+
+      <section class="content section-stack">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h2>Maintenance Calendar</h2>
+              <span>Scheduled work by next due date</span>
+            </div>
+            <div class="calendar-toolbar">
+              <button id="prevMonth" class="icon-btn" type="button" aria-label="Previous month">&lt;</button>
+              <span id="calendarTitle" class="calendar-title"></span>
+              <button id="nextMonth" class="icon-btn" type="button" aria-label="Next month">&gt;</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div id="scheduleCalendar" class="calendar-grid" aria-label="Maintenance calendar"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header toolbar">
+            <div>
+              <h2>Maintenance Schedules</h2>
+              <span id="scheduleCount">0 schedules</span>
+            </div>
+            <div class="filter-row">
+              <label class="search-box" aria-label="Search schedules">
+                <input id="scheduleSearch" class="input" type="search" placeholder="Search by asset, frequency, or maintenance type">
+              </label>
+              <select id="scheduleFrequencyFilter" class="select" aria-label="Filter by frequency"></select>
+              <button class="btn btn-primary" type="button" data-action="add-schedule"><span class="btn-icon">+</span>Create</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Asset</th>
+                  <th>Frequency</th>
+                  <th>Start Date</th>
+                  <th>Next Due Date</th>
+                  <th>Maintenance Type</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="schedulesTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="scheduleModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal="scheduleModal"></div>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="scheduleModalTitle">
+      <form id="scheduleForm">
+        <div class="modal-header">
+          <h2 id="scheduleModalTitle">Create Maintenance Schedule</h2>
+          <button class="icon-btn" type="button" data-close-modal="scheduleModal" aria-label="Close dialog">x</button>
+        </div>
+        <div class="modal-body">
+          <input id="scheduleRecordId" type="hidden">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="scheduleAsset">Asset</label>
+              <select id="scheduleAsset" class="select" required></select>
+            </div>
+            <div class="form-field">
+              <label for="scheduleFrequency">Frequency</label>
+              <select id="scheduleFrequency" class="select" required></select>
+            </div>
+            <div class="form-field">
+              <label for="scheduleStartDate">Start Date</label>
+              <input id="scheduleStartDate" class="input" type="date" required>
+            </div>
+            <div class="form-field">
+              <label for="scheduleNextDueDate">Next Due Date</label>
+              <input id="scheduleNextDueDate" class="input" type="date" required readonly>
+              <span class="field-hint">Calculated from start date and frequency.</span>
+            </div>
+            <div class="form-field full">
+              <label for="scheduleMaintenanceType">Maintenance Type</label>
+              <input id="scheduleMaintenanceType" class="input" type="text" required placeholder="Vibration checks, calibration, inspection">
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" type="button" data-close-modal="scheduleModal">Cancel</button>
+          <button class="btn btn-primary" type="submit">Save Schedule</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

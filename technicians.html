@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MaintPro360 | Technicians</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="data/localstorage.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script src="js/technicians.js" defer></script>
+</head>
+<body data-page="technicians">
+  <div id="sidebarShade" class="sidebar-shade"></div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">M</span>
+        <span>
+          <span class="brand-title">MaintPro360</span>
+          <span class="brand-subtitle">Digital Maintenance Management Platform</span>
+        </span>
+      </a>
+      <nav class="nav-list">
+        <a class="nav-link" data-nav="dashboard" href="index.html"><span class="nav-icon">DB</span>Dashboard</a>
+        <a class="nav-link" data-nav="assets" href="assets.html"><span class="nav-icon">AS</span>Assets</a>
+        <a class="nav-link" data-nav="schedules" href="schedules.html"><span class="nav-icon">PM</span>Preventive Maintenance</a>
+        <a class="nav-link" data-nav="workorders" href="workorders.html"><span class="nav-icon">WO</span>Work Orders</a>
+        <a class="nav-link" data-nav="technicians" href="technicians.html"><span class="nav-icon">TE</span>Technicians</a>
+        <a class="nav-link" data-nav="history" href="history.html"><span class="nav-icon">HI</span>History & Reporting</a>
+      </nav>
+      <div class="sidebar-footer">
+        <strong>Field Workforce</strong>
+        <span>Skills, departments, contacts, and assigned work.</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuButton" class="icon-btn menu-button" type="button" aria-label="Open navigation">M</button>
+        <div class="page-title">
+          <h1>Technician Management</h1>
+          <p>Maintain field teams and view assigned jobs.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-primary" type="button" data-action="add-technician"><span class="btn-icon">+</span>Add Technician</button>
+        </div>
+      </header>
+
+      <section class="content section-stack">
+        <section class="panel">
+          <div class="panel-header toolbar">
+            <div>
+              <h2>Technicians</h2>
+              <span id="technicianCount">0 technicians</span>
+            </div>
+            <div class="filter-row">
+              <label class="search-box" aria-label="Search technicians">
+                <input id="technicianSearch" class="input" type="search" placeholder="Search by employee ID, name, skill, department, or phone">
+              </label>
+              <select id="technicianSkillFilter" class="select" aria-label="Filter by skill"></select>
+              <select id="technicianDepartmentFilter" class="select" aria-label="Filter by department"></select>
+              <button class="btn btn-primary" type="button" data-action="add-technician"><span class="btn-icon">+</span>Add</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Employee ID</th>
+                  <th>Name</th>
+                  <th>Skill</th>
+                  <th>Department</th>
+                  <th>Phone Number</th>
+                  <th>Assigned Jobs</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="techniciansTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="technicianModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal="technicianModal"></div>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="technicianModalTitle">
+      <form id="technicianForm">
+        <div class="modal-header">
+          <h2 id="technicianModalTitle">Add Technician</h2>
+          <button class="icon-btn" type="button" data-close-modal="technicianModal" aria-label="Close dialog">x</button>
+        </div>
+        <div class="modal-body">
+          <input id="technicianRecordId" type="hidden">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="employeeId">Employee ID</label>
+              <input id="employeeId" class="input" type="text" required placeholder="EMP-414">
+            </div>
+            <div class="form-field">
+              <label for="technicianName">Name</label>
+              <input id="technicianName" class="input" type="text" required placeholder="Technician name">
+            </div>
+            <div class="form-field">
+              <label for="technicianSkill">Skill</label>
+              <input id="technicianSkill" class="input" type="text" required placeholder="Mechanical">
+            </div>
+            <div class="form-field">
+              <label for="technicianDepartment">Department</label>
+              <input id="technicianDepartment" class="input" type="text" required placeholder="Maintenance">
+            </div>
+            <div class="form-field full">
+              <label for="technicianPhone">Phone Number</label>
+              <input id="technicianPhone" class="input" type="tel" required placeholder="+234 800 100 2014">
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" type="button" data-close-modal="technicianModal">Cancel</button>
+          <button class="btn btn-primary" type="submit">Save Technician</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div id="technicianJobsModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal="technicianJobsModal"></div>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="technicianJobsTitle">
+      <div class="modal-header">
+        <h2 id="technicianJobsTitle">Assigned Jobs</h2>
+        <button class="icon-btn" type="button" data-close-modal="technicianJobsModal" aria-label="Close dialog">x</button>
+      </div>
+      <div id="technicianJobsList" class="modal-body jobs-list"></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" type="button" data-close-modal="technicianJobsModal">Close</button>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

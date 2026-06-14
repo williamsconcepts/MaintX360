@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MaintPro360 | Work Orders</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="data/localstorage.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script src="js/workorders.js" defer></script>
+</head>
+<body data-page="workorders">
+  <div id="sidebarShade" class="sidebar-shade"></div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">M</span>
+        <span>
+          <span class="brand-title">MaintPro360</span>
+          <span class="brand-subtitle">Digital Maintenance Management Platform</span>
+        </span>
+      </a>
+      <nav class="nav-list">
+        <a class="nav-link" data-nav="dashboard" href="index.html"><span class="nav-icon">DB</span>Dashboard</a>
+        <a class="nav-link" data-nav="assets" href="assets.html"><span class="nav-icon">AS</span>Assets</a>
+        <a class="nav-link" data-nav="schedules" href="schedules.html"><span class="nav-icon">PM</span>Preventive Maintenance</a>
+        <a class="nav-link" data-nav="workorders" href="workorders.html"><span class="nav-icon">WO</span>Work Orders</a>
+        <a class="nav-link" data-nav="technicians" href="technicians.html"><span class="nav-icon">TE</span>Technicians</a>
+        <a class="nav-link" data-nav="history" href="history.html"><span class="nav-icon">HI</span>History & Reporting</a>
+      </nav>
+      <div class="sidebar-footer">
+        <strong>Execution Control</strong>
+        <span>Assign technicians, prioritize work, and track completion.</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuButton" class="icon-btn menu-button" type="button" aria-label="Open navigation">M</button>
+        <div class="page-title">
+          <h1>Work Orders</h1>
+          <p>Create, assign, prioritize, and close maintenance work.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-primary" type="button" data-action="add-workorder"><span class="btn-icon">+</span>Create Work Order</button>
+        </div>
+      </header>
+
+      <section class="content section-stack">
+        <section class="panel">
+          <div class="panel-header toolbar">
+            <div>
+              <h2>Work Order Board</h2>
+              <span id="workOrderCount">0 work orders</span>
+            </div>
+            <div class="filter-row">
+              <label class="search-box" aria-label="Search work orders">
+                <input id="workOrderSearch" class="input" type="search" placeholder="Search by number, asset, technician, or description">
+              </label>
+              <select id="workOrderStatusFilter" class="select" aria-label="Filter by work order status"></select>
+              <select id="workOrderPriorityFilter" class="select" aria-label="Filter by work order priority"></select>
+              <button class="btn btn-primary" type="button" data-action="add-workorder"><span class="btn-icon">+</span>Create</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Work Order</th>
+                  <th>Asset</th>
+                  <th>Description</th>
+                  <th>Priority</th>
+                  <th>Technician</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th>Due</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="workOrdersTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="workOrderModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal="workOrderModal"></div>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="workOrderModalTitle">
+      <form id="workOrderForm">
+        <div class="modal-header">
+          <h2 id="workOrderModalTitle">Create Work Order</h2>
+          <button class="icon-btn" type="button" data-close-modal="workOrderModal" aria-label="Close dialog">x</button>
+        </div>
+        <div class="modal-body">
+          <input id="workOrderRecordId" type="hidden">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="workOrderNumber">Work Order Number</label>
+              <input id="workOrderNumber" class="input" type="text" required>
+            </div>
+            <div class="form-field">
+              <label for="workOrderAsset">Asset</label>
+              <select id="workOrderAsset" class="select" required></select>
+            </div>
+            <div class="form-field full">
+              <label for="workOrderDescription">Description</label>
+              <textarea id="workOrderDescription" class="textarea" required placeholder="Describe the maintenance issue or task"></textarea>
+            </div>
+            <div class="form-field">
+              <label for="workOrderPriority">Priority</label>
+              <select id="workOrderPriority" class="select" required></select>
+            </div>
+            <div class="form-field">
+              <label for="workOrderTechnician">Technician</label>
+              <select id="workOrderTechnician" class="select" required></select>
+            </div>
+            <div class="form-field">
+              <label for="workOrderStatus">Status</label>
+              <select id="workOrderStatus" class="select" required></select>
+            </div>
+            <div class="form-field">
+              <label for="workOrderDateCreated">Date Created</label>
+              <input id="workOrderDateCreated" class="input" type="date" required>
+            </div>
+            <div class="form-field">
+              <label for="workOrderDueDate">Due Date</label>
+              <input id="workOrderDueDate" class="input" type="date" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" type="button" data-close-modal="workOrderModal">Cancel</button>
+          <button class="btn btn-primary" type="submit">Save Work Order</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

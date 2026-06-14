@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MaintPro360 | Assets</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="data/localstorage.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script src="js/assets.js" defer></script>
+</head>
+<body data-page="assets">
+  <div id="sidebarShade" class="sidebar-shade"></div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">M</span>
+        <span>
+          <span class="brand-title">MaintPro360</span>
+          <span class="brand-subtitle">Digital Maintenance Management Platform</span>
+        </span>
+      </a>
+      <nav class="nav-list">
+        <a class="nav-link" data-nav="dashboard" href="index.html"><span class="nav-icon">DB</span>Dashboard</a>
+        <a class="nav-link" data-nav="assets" href="assets.html"><span class="nav-icon">AS</span>Assets</a>
+        <a class="nav-link" data-nav="schedules" href="schedules.html"><span class="nav-icon">PM</span>Preventive Maintenance</a>
+        <a class="nav-link" data-nav="workorders" href="workorders.html"><span class="nav-icon">WO</span>Work Orders</a>
+        <a class="nav-link" data-nav="technicians" href="technicians.html"><span class="nav-icon">TE</span>Technicians</a>
+        <a class="nav-link" data-nav="history" href="history.html"><span class="nav-icon">HI</span>History & Reporting</a>
+      </nav>
+      <div class="sidebar-footer">
+        <strong>Asset Registry</strong>
+        <span>Equipment identity, location, and availability state.</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuButton" class="icon-btn menu-button" type="button" aria-label="Open navigation">M</button>
+        <div class="page-title">
+          <h1>Asset Management</h1>
+          <p>Register, update, search, and retire maintainable assets.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-primary" type="button" data-action="add-asset"><span class="btn-icon">+</span>Add Asset</button>
+        </div>
+      </header>
+
+      <section class="content section-stack">
+        <section class="panel">
+          <div class="panel-header toolbar">
+            <div>
+              <h2>Asset Register</h2>
+              <span id="assetCount">0 assets</span>
+            </div>
+            <div class="filter-row">
+              <label class="search-box" aria-label="Search assets">
+                <input id="assetSearch" class="input" type="search" placeholder="Search by ID, name, type, or location">
+              </label>
+              <select id="assetStatusFilter" class="select" aria-label="Filter by asset status"></select>
+              <select id="assetTypeFilter" class="select" aria-label="Filter by asset type"></select>
+              <button class="btn btn-primary" type="button" data-action="add-asset"><span class="btn-icon">+</span>Add Asset</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Asset ID</th>
+                  <th>Asset Name</th>
+                  <th>Type</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                  <th>Installation Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="assetsTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="assetModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal="assetModal"></div>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="assetModalTitle">
+      <form id="assetForm">
+        <div class="modal-header">
+          <h2 id="assetModalTitle">Add Asset</h2>
+          <button class="icon-btn" type="button" data-close-modal="assetModal" aria-label="Close dialog">x</button>
+        </div>
+        <div class="modal-body">
+          <input id="assetRecordId" type="hidden">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="assetId">Asset ID</label>
+              <input id="assetId" class="input" type="text" required placeholder="AST-1007">
+            </div>
+            <div class="form-field">
+              <label for="assetName">Asset Name</label>
+              <input id="assetName" class="input" type="text" required placeholder="Export Pump C">
+            </div>
+            <div class="form-field">
+              <label for="assetType">Asset Type</label>
+              <input id="assetType" class="input" type="text" required placeholder="Pump, Compressor, Valve">
+            </div>
+            <div class="form-field">
+              <label for="assetLocation">Location</label>
+              <input id="assetLocation" class="input" type="text" required placeholder="Flow Station 1">
+            </div>
+            <div class="form-field">
+              <label for="assetStatus">Status</label>
+              <select id="assetStatus" class="select" required></select>
+            </div>
+            <div class="form-field">
+              <label for="assetInstallationDate">Installation Date</label>
+              <input id="assetInstallationDate" class="input" type="date" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" type="button" data-close-modal="assetModal">Cancel</button>
+          <button class="btn btn-primary" type="submit">Save Asset</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

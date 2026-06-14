@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MaintPro360 | History & Reporting</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
+  <script src="data/localstorage.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script src="js/history.js" defer></script>
+</head>
+<body data-page="history">
+  <div id="sidebarShade" class="sidebar-shade"></div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">M</span>
+        <span>
+          <span class="brand-title">MaintPro360</span>
+          <span class="brand-subtitle">Digital Maintenance Management Platform</span>
+        </span>
+      </a>
+      <nav class="nav-list">
+        <a class="nav-link" data-nav="dashboard" href="index.html"><span class="nav-icon">DB</span>Dashboard</a>
+        <a class="nav-link" data-nav="assets" href="assets.html"><span class="nav-icon">AS</span>Assets</a>
+        <a class="nav-link" data-nav="schedules" href="schedules.html"><span class="nav-icon">PM</span>Preventive Maintenance</a>
+        <a class="nav-link" data-nav="workorders" href="workorders.html"><span class="nav-icon">WO</span>Work Orders</a>
+        <a class="nav-link" data-nav="technicians" href="technicians.html"><span class="nav-icon">TE</span>Technicians</a>
+        <a class="nav-link" data-nav="history" href="history.html"><span class="nav-icon">HI</span>History & Reporting</a>
+      </nav>
+      <div class="sidebar-footer">
+        <strong>Maintenance History</strong>
+        <span>Completed work, service notes, and operational KPIs.</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuButton" class="icon-btn menu-button" type="button" aria-label="Open navigation">M</button>
+        <div class="page-title">
+          <h1>History & Reporting</h1>
+          <p>Record completed maintenance and review asset health KPIs.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-primary" type="button" data-action="add-history"><span class="btn-icon">+</span>Record Maintenance</button>
+        </div>
+      </header>
+
+      <section class="content section-stack">
+        <div class="stat-grid">
+          <article class="stat-card accent-cyan">
+            <span class="stat-label">Maintenance Records</span>
+            <strong id="totalHistoryRecords" class="stat-value">0</strong>
+            <span class="stat-meta">Completed entries captured</span>
+          </article>
+          <article class="stat-card accent-green">
+            <span class="stat-label">This Month</span>
+            <strong id="monthlyHistoryRecords" class="stat-value">0</strong>
+            <span class="stat-meta">Current month completions</span>
+          </article>
+          <article class="stat-card accent-blue">
+            <span class="stat-label">Completion Rate</span>
+            <strong id="reportCompletionRate" class="stat-value">0%</strong>
+            <span class="stat-meta">Closed work order ratio</span>
+          </article>
+          <article class="stat-card accent-red">
+            <span class="stat-label">Overdue Work Orders</span>
+            <strong id="overdueWorkOrders" class="stat-value">0</strong>
+            <span class="stat-meta">Active work past due date</span>
+          </article>
+          <article class="stat-card accent-amber">
+            <span class="stat-label">Assets in Maintenance</span>
+            <strong id="maintenanceAssets" class="stat-value">0</strong>
+            <span class="stat-meta">Asset status summary</span>
+          </article>
+          <article class="stat-card accent-violet">
+            <span class="stat-label">Active Technicians</span>
+            <strong id="activeTechnicians" class="stat-value">0</strong>
+            <span class="stat-meta">Technicians in registry</span>
+          </article>
+        </div>
+
+        <div class="grid-3">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Asset Status Summary</h2>
+                <span>Registered equipment state</span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="chart-area short">
+                <canvas id="assetStatusReportChart" aria-label="Asset status report chart"></canvas>
+              </div>
+              <p class="chart-fallback" hidden>Chart.js could not be loaded.</p>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Work Order Status Summary</h2>
+                <span>Current execution split</span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="chart-area short">
+                <canvas id="workOrderStatusReportChart" aria-label="Work order status report chart"></canvas>
+              </div>
+              <p class="chart-fallback" hidden>Chart.js could not be loaded.</p>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Monthly Maintenance Count</h2>
+                <span>Six month maintenance trend</span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="chart-area short">
+                <canvas id="monthlyMaintenanceReportChart" aria-label="Monthly maintenance report chart"></canvas>
+              </div>
+              <p class="chart-fallback" hidden>Chart.js could not be loaded.</p>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="panel-header toolbar">
+            <div>
+              <h2>Maintenance History</h2>
+              <span id="historyCountLabel">0 records</span>
+            </div>
+            <div class="filter-row">
+              <label class="search-box" aria-label="Search maintenance history">
+                <input id="historySearch" class="input" type="search" placeholder="Search by asset, technician, work order, type, or notes">
+              </label>
+              <select id="historyAssetFilter" class="select" aria-label="Filter by asset"></select>
+              <select id="historyTechnicianFilter" class="select" aria-label="Filter by technician"></select>
+              <button class="btn btn-primary" type="button" data-action="add-history"><span class="btn-icon">+</span>Record</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Asset</th>
+                  <th>Work Order</th>
+                  <th>Technician</th>
+                  <th>Maintenance Type</th>
+                  <th>Notes</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="historyModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal="historyModal"></div>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="historyModalTitle">
+      <form id="historyForm">
+        <div class="modal-header">
+          <h2 id="historyModalTitle">Record Completed Maintenance</h2>
+          <button class="icon-btn" type="button" data-close-modal="historyModal" aria-label="Close dialog">x</button>
+        </div>
+        <div class="modal-body">
+          <input id="historyRecordId" type="hidden">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="historyAsset">Asset</label>
+              <select id="historyAsset" class="select" required></select>
+            </div>
+            <div class="form-field">
+              <label for="historyWorkOrder">Work Order</label>
+              <select id="historyWorkOrder" class="select"></select>
+            </div>
+            <div class="form-field">
+              <label for="historyTechnician">Technician</label>
+              <select id="historyTechnician" class="select" required></select>
+            </div>
+            <div class="form-field">
+              <label for="historyDate">Maintenance Date</label>
+              <input id="historyDate" class="input" type="date" required>
+            </div>
+            <div class="form-field full">
+              <label for="historyMaintenanceType">Maintenance Type</label>
+              <input id="historyMaintenanceType" class="input" type="text" required placeholder="Calibration, inspection, corrective repair">
+            </div>
+            <div class="form-field full">
+              <label for="historyNotes">Notes</label>
+              <textarea id="historyNotes" class="textarea" required placeholder="Record completion notes, findings, parts used, and follow-up actions"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" type="button" data-close-modal="historyModal">Cancel</button>
+          <button class="btn btn-primary" type="submit">Save Record</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>
