@@ -2,7 +2,7 @@
 
 ## Digital Maintenance Management Platform for Oil & Gas Assets
 
-MaintPro360 is a web-based Computerized Maintenance Management System (CMMS) designed to help oil and gas companies manage equipment maintenance activities, work orders, technicians, and maintenance records in a centralized digital platform.
+MaintxPro360 is a web-based Computerized Maintenance Management System (CMMS) designed to help oil and gas companies manage equipment maintenance activities, work orders, technicians, and maintenance records in a centralized digital platform.
 
 The system reduces equipment downtime, improves maintenance planning, enhances technician productivity, and provides visibility into asset performance and maintenance operations.
 
