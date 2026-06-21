@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MaintPro360 | Dashboard</title>
+  <title>MaintxPro360 | Dashboard</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
+  <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
   <script src="data/localstorage.js" defer></script>
   <script src="js/app.js" defer></script>
 </head>
@@ -14,10 +18,8 @@
   <div class="app-shell">
     <aside class="sidebar" aria-label="Primary navigation">
       <a class="brand" href="index.html">
-        <span class="brand-mark">M</span>
         <span>
-          <span class="brand-title">MaintPro360</span>
-          <span class="brand-subtitle">Digital Maintenance Management Platform</span>
+          <img src="images/logo.png" alt="logo" />
         </span>
       </a>
 
@@ -38,7 +40,7 @@
 
     <main class="main">
       <header class="topbar">
-        <button id="menuButton" class="icon-btn menu-button" type="button" aria-label="Open navigation">M</button>
+        <button id="menuButton" class="icon-btn menu-button" type="button" aria-label="Open navigation"><i class="fa-solid fa-bars-staggered"></i></button> 
         <div class="page-title">
           <h1>Operations Dashboard</h1>
           <p>Maintenance visibility across critical oil and gas assets.</p>

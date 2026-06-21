@@ -894,6 +894,11 @@ button.menu-button {
   transition: opacity 160ms ease, transform 160ms ease;
 }
 
+img {
+  width: 70px;
+  height: 70px;
+}
+
 @keyframes toastIn {
   from {
     opacity: 0;

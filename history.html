@@ -6,6 +6,10 @@
   <title>MaintPro360 | History & Reporting</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
+  <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
   <script src="data/localstorage.js" defer></script>
   <script src="js/app.js" defer></script>
   <script src="js/history.js" defer></script>
@@ -15,7 +19,9 @@
   <div class="app-shell">
     <aside class="sidebar" aria-label="Primary navigation">
       <a class="brand" href="index.html">
-        <span class="brand-mark">M</span>
+              <span>
+          <img src="images/logo.png" alt="logo" />
+        </span>
         <span>
           <span class="brand-title">MaintPro360</span>
           <span class="brand-subtitle">Digital Maintenance Management Platform</span>
@@ -37,7 +43,7 @@
 
     <main class="main">
       <header class="topbar">
-        <button id="menuButton" class="icon-btn menu-button" type="button" aria-label="Open navigation">M</button>
+         <button id="menuButton" class="icon-btn menu-button" type="button" aria-label="Open navigation"><i class="fa-solid fa-bars-staggered"></i></button>
         <div class="page-title">
           <h1>History & Reporting</h1>
           <p>Record completed maintenance and review asset health KPIs.</p>
